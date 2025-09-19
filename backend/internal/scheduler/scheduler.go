@@ -12,11 +12,11 @@ import (
 type Scheduler struct {
 	mu sync.Mutex
 	// список задач
-	jobs map[string]*entities.Job
+	Jobs map[string]*entities.Job
 	// graceful shutdown
-	quit    chan struct{}
+	Quit    chan struct{}
 	wg      sync.WaitGroup
-	metrics *metrics.SchedulerMetrics
+	Metrics *metrics.SchedulerMetrics
 }
 
 func (s *Scheduler) Start() {
