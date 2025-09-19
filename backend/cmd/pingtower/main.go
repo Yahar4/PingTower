@@ -9,6 +9,8 @@ import (
 func main() {
 	m := metrics.NewSchedulerMetrics()
 	sch := &scheduler.Scheduler{
+		// пока что map, не подключил БД
+		// см. комменты в scheduler.go
 		Jobs:    make(map[string]*entities.Job),
 		Quit:    make(chan struct{}),
 		Metrics: m,

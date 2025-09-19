@@ -9,6 +9,8 @@ import (
 	"github.com/PingTower/internal/entities"
 )
 
+// TOOD: добавить функцию получения job'ов из БД
+
 type Scheduler struct {
 	mu sync.Mutex
 	// список задач
@@ -26,7 +28,7 @@ func (s *Scheduler) Start() {
 		select {
 		case <-ticker.C:
 			s.runDueJobs()
-		case <-s.quit:
+		case <-s.Quit:
 			ticker.Stop()
 			s.wg.Wait()
 			return
@@ -35,9 +37,11 @@ func (s *Scheduler) Start() {
 }
 
 func (s *Scheduler) runDueJobs() {
+	// функция получения всех джобов сюда
+
 	now := time.Now()
 
-	for _, job := range s.jobs {
+	for _, job := range s.Jobs {
 		if now.After(job.NextRun) {
 			s.wg.Add(1)
 
@@ -48,10 +52,12 @@ func (s *Scheduler) runDueJobs() {
 				duration := time.Since(start)
 
 				if err != nil {
-					s.metrics.RecordJobExec(duration, false)
+					s.Metrics.RecordJobExec(duration, false)
 				} else {
-					s.metrics.RecordJobExec(duration, true)
+					s.Metrics.RecordJobExec(duration, true)
 				}
+
+				// запрос в БД на изменения
 
 				j.LastRun = now
 				j.NextRun = now.Add(j.Interval)
