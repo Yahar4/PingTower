@@ -13,5 +13,5 @@ type Job struct {
 	Interval time.Duration
 	LastRun  time.Time
 	NextRun  time.Time
-	Handler func(job Job) error
+	Handler  func(job Job) error
 }
