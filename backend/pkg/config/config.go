@@ -1,6 +1,10 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"fmt"
+
+	"github.com/spf13/viper"
+)
 
 type (
 	Config struct {
@@ -16,6 +20,18 @@ type (
 		SSLMode  string `mapstructure:"sslmode"`
 	}
 )
+
+func (config *Config) GetDSN() string {
+	return fmt.Sprintf(
+		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
+		config.Database.Host,
+		config.Database.Port,
+		config.Database.User,
+		config.Database.Password,
+		config.Database.DBName,
+		config.Database.SSLMode,
+	)
+}
 
 func LoadConfig(path string) (*Config, error) {
 	v := viper.New()
