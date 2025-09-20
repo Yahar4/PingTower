@@ -15,3 +15,11 @@ type Job struct {
 	NextRun  time.Time
 	Handler  func(job Job) error
 }
+
+type Service struct {
+	ID       uuid.UUID
+	Name     string
+	URL      string
+	Interval time.Duration
+	Active   bool
+}

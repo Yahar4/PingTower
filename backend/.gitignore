@@ -1,0 +1,46 @@
+# ---> Go
+# Скомпилированные бинарники
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Тестовые бинарники
+*.test
+
+# Каталоги вывода
+bin/
+build/
+
+# Кэш и зависимости
+*.out
+*.log
+*.tmp
+*.swp
+*.swo
+*.DS_Store
+
+# Go modules
+vendor/
+
+# IDE-шный мусор
+.idea/
+.vscode/
+*.iml
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+docker-compose.override.yml
+
+# Базы данных и volume-контент (если случайно монтируешь внутрь проекта)
+postgres_data/
+redis_data/
+
+# Environment
+.env
+.env.*
+
+/configs
