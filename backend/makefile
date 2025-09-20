@@ -1,6 +1,3 @@
-include .env
-export
-
 # Project configuration
 PROJECT_NAME := ping-tower
 CMD_PATH := cmd/pingtower/main.go
