@@ -6,6 +6,7 @@ import (
 	"github.com/PingTower/pkg/logger"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/redis/go-redis/v9"
 	"go.uber.org/zap"
 	"log"
 	"net/http"
@@ -33,6 +34,12 @@ func main() {
 	}
 	defer db.Close()
 
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "",
+		DB:       0,
+	})
+
 	s := server.NewServer(":8080", db)
 	e := echo.New()
 
@@ -48,7 +55,7 @@ func main() {
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 
 	go func() {
-		if err := s.Run(e, sugar, db); err != nil {
+		if err := s.Run(e, sugar, db, rdb); err != nil {
 			log.Fatal(err)
 		}
 	}()

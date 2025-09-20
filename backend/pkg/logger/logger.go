@@ -13,7 +13,7 @@ func CreateLogger() *zap.Logger {
 
 	// save logs to files (logs)
 	file := zapcore.AddSync(&lumberjack.Logger{
-		Filename:   "logs/tpl.log",
+		Filename:   "logs/pingtower.log",
 		MaxSize:    10, // megabytes
 		MaxBackups: 3,
 		MaxAge:     7, // days

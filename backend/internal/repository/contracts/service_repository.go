@@ -8,7 +8,7 @@ import (
 
 type PostgresRepository interface {
 	AddService(ctx context.Context, service entities.Service) error
-	// GetAllServices(ctx context.Context) ([]entities.Service, error)
+	GetAllServices(ctx context.Context) ([]entities.Service, error)
 	// UpdateService(ctx context.Context, service entities.Service) error
 	// DeleteService(ctx context.Context, serviceID uuid.UUID) error
 }
