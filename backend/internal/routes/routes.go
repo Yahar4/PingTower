@@ -6,6 +6,8 @@ import (
 )
 
 func RegisterRoutes(api *echo.Group, sh *handlers.ServiceHandler) {
-	api.POST("/service", sh.CreateServiceHandler)
-	api.GET("/service", nil)
+	api.POST("/services", sh.CreateServiceHandler)
+	api.GET("/services", sh.GetAllServicesHandler)
+	api.PUT("/services", sh.UpdateServiceHandler)
+	api.DELETE("/services/:id", sh.DeleteServiceHandler)
 }

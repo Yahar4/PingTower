@@ -30,7 +30,7 @@ func (s *Server) Run(e *echo.Echo, sugar *zap.SugaredLogger, db *sqlx.DB, rdb *r
 	api := e.Group("/api/v1")
 
 	serviceRepoPostgres := postgres.NewServiceRepoPostgres(db)
-	serviceRepoRedis := redis.NewServiceRepoRedis()
+	serviceRepoRedis := redis.NewServiceRepoRedis(rdb)
 
 	cacheInitializer := cache.NewCacheInitializer(serviceRepoPostgres, rdb)
 	if err := cacheInitializer.WarmUpCache(context.Background()); err != nil {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/PingTower/internal/entities"
+	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"time"
 )
@@ -86,4 +87,16 @@ func (r *ServiceRepositoryPostgres) GetAllServices(ctx context.Context) ([]entit
 	}
 
 	return services, nil
+}
+
+func (r *ServiceRepositoryPostgres) UpdateService(ctx context.Context, service entities.Service) error {
+	query := `UPDATE services SET name=$1, url=$2, interval=$3, enabled=$4, updated_at=NOW() WHERE id=$5`
+	_, err := r.db.ExecContext(ctx, query,
+		service.ServiceName, service.URL, service.Interval, service.Active, service.ID)
+	return err
+}
+
+func (r *ServiceRepositoryPostgres) DeleteService(ctx context.Context, serviceID uuid.UUID) error {
+	_, err := r.db.ExecContext(ctx, `DELETE FROM services WHERE id=$1`, serviceID)
+	return err
 }

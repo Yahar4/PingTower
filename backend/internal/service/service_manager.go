@@ -36,3 +36,50 @@ func (s *ServiceManager) CreateService(ctx context.Context, req *entities.Create
 
 	return nil
 }
+
+func (s *ServiceManager) GetAllServices(ctx context.Context) ([]entities.Service, error) {
+	services, err := s.redis.GetAllServices(ctx)
+	if err == nil && len(services) > 0 {
+		return services, nil
+	}
+
+	services, err = s.pg.GetAllServices(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, serv := range services {
+		_ = s.redis.SetService(ctx, serv)
+	}
+
+	return services, nil
+}
+
+func (s *ServiceManager) UpdateService(ctx context.Context, req *entities.UpdateServiceRequest) error {
+	serv := entities.Service{
+		ID:          req.ID,
+		ServiceName: req.ServiceName,
+		URL:         req.URL,
+		Interval:    time.Duration(req.Interval) * time.Second,
+		Active:      req.Active,
+	}
+
+	if err := s.pg.UpdateService(ctx, serv); err != nil {
+		return err
+	}
+	if err := s.redis.SetService(ctx, serv); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *ServiceManager) DeleteService(ctx context.Context, id uuid.UUID) error {
+	if err := s.pg.DeleteService(ctx, id); err != nil {
+		return err
+	}
+	if err := s.redis.DeleteService(ctx, id); err != nil {
+		return err
+	}
+	return nil
+}
