@@ -19,11 +19,11 @@ func NewServiceManager(pg contracts.PostgresRepository, redis contracts.RedisRep
 
 func (s *ServiceManager) CreateService(ctx context.Context, req *entities.CreateServiceRequest) error {
 	serv := entities.Service{
-		ID:       uuid.New(),
-		Name:     req.Name,
-		URL:      req.URL,
-		Interval: time.Duration(req.Interval) * time.Second,
-		Active:   req.Active,
+		ID:          uuid.New(),
+		ServiceName: req.ServiceName,
+		URL:         req.URL,
+		Interval:    time.Duration(req.Interval) * time.Second,
+		Active:      req.Active,
 	}
 
 	if err := s.pg.AddService(ctx, serv); err != nil {

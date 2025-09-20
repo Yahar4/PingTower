@@ -17,9 +17,9 @@ type Job struct {
 }
 
 type Service struct {
-	ID       uuid.UUID
-	Name     string
-	URL      string
-	Interval time.Duration
-	Active   bool
+	ID          uuid.UUID
+	ServiceName string
+	URL         string
+	Interval    time.Duration
+	Active      bool
 }
