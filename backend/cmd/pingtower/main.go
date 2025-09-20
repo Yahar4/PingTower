@@ -1,21 +1,28 @@
 package main
 
 import (
+	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+
 	"github.com/PingTower/cmd/server"
+	"github.com/PingTower/pkg/config"
 	"github.com/PingTower/pkg/database"
 	"github.com/PingTower/pkg/logger"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/zap"
-	"log"
-	"net/http"
-	"os"
-	"os/signal"
-	"syscall"
 )
 
 func main() {
+	config, err := config.LoadConfig("config.yaml")
+	if err != nil {
+		log.Fatalf("Failed to load config: %v", err)
+	}
+
 	l := logger.CreateLogger()
 
 	sugar := l.Sugar()
@@ -26,7 +33,7 @@ func main() {
 		}
 	}(sugar)
 
-	db, err := database.ConnectPostgresDB(sugar)
+	db, err := database.ConnectPostgresDB(sugar, config)
 	if err != nil {
 		sugar.Fatalw("Failed to initialize database",
 			"error", err,
