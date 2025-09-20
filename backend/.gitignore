@@ -40,7 +40,6 @@ postgres_data/
 redis_data/
 
 # Environment
-.env
-.env.*
+config.yaml
 
 /configs
