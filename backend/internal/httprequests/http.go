@@ -24,7 +24,7 @@ type HttpMetrics struct {
 
 // Функция для проверки конкретных url'ов из джобов
 // привязывается к полю Handler
-func HttpCheck(job entities.Job) HttpMetrics {
+func HttpCheck(job entities.Job) (HttpMetrics, error) {
 	var (
 		dnsStart, dnsDone      time.Time
 		connStart, connDone    time.Time
@@ -74,7 +74,7 @@ func HttpCheck(job entities.Job) HttpMetrics {
 	if err != nil {
 		metrics.Status = "fail"
 		metrics.Error = err.Error()
-		return metrics
+		return metrics, err
 	}
 	defer resp.Body.Close()
 
@@ -85,5 +85,5 @@ func HttpCheck(job entities.Job) HttpMetrics {
 		metrics.ResponseLength = resp.ContentLength
 	}
 
-	return metrics
+	return metrics, nil
 }
