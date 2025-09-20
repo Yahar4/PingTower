@@ -33,6 +33,18 @@ func (config *Config) GetDSN() string {
 	)
 }
 
+func (config *Config) GetDBURL() string {
+	return fmt.Sprintf(
+		"postgres://%s:%s@%s:%d/%s?sslmode=%s",
+		config.Database.User,
+		config.Database.Password,
+		config.Database.Host,
+		config.Database.Port,
+		config.Database.DBName,
+		config.Database.SSLMode,
+	)
+}
+
 func LoadConfig(path string) (*Config, error) {
 	v := viper.New()
 	v.SetConfigFile(path)
