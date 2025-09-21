@@ -40,7 +40,7 @@
 ### Локальный запуск
 ```bash
 # клонировать проект
-git clone https://github.com/your-org/pingtower.git
+git clone git@github.com:Yahar4/PingTower.git
 # контейнеры
 make docker-compose
 # база данных
@@ -48,4 +48,5 @@ make db-up
 # запуск приложения
 make run
 ```
+
 
