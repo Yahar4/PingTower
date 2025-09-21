@@ -36,7 +36,6 @@
 - Go 1.21+
 - PostgreSQL
 - Redis
-- ClickHouse (опционально)
 
 ### Локальный запуск
 ```bash
@@ -49,3 +48,4 @@ make db-up
 # запуск приложения
 make run
 ```
+
